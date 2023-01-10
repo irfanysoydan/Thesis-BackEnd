@@ -1,7 +1,8 @@
-const PartyController = require("../controllers/election.controller");
+const PartyController = require("../controllers/party.controller");
 const PartyRouter = require("express").Router();
 
-PartyRouter.get("/:id", PartyController.getPartyById);
-PartyRouter.get("/", PartyController.getAllParties);
+PartyRouter.post("/", PartyController.createParty);
+PartyRouter.get("/party/:id", PartyController.getPartyById);
+PartyRouter.get("/:electionid", PartyController.getPartiesByElectionId);
 
 module.exports = PartyRouter;

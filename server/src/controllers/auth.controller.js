@@ -58,6 +58,7 @@ class AuthController {
       });
       const responseValue = {
         token: token,
+        id: user.id,
       };
       return res.status(200).send(responseValue);
     } catch (err) {
