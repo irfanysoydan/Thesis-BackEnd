@@ -15,6 +15,9 @@ const ElectionSchema = new Schema(
         required: [true, "Parties are required"],
       },
     ],
+    image: {
+      type: String,
+    },
     isFinished: {
       type: Boolean,
       required: false,

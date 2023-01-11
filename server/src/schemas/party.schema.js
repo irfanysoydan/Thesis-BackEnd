@@ -7,6 +7,17 @@ const PartySchema = new Schema(
       type: String,
       require: [true, "Name is required"],
     },
+    image: {
+      type: String,
+    },
+    person: {
+      type: String,
+      require: [true, "Person is required"],
+    },
+    result: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

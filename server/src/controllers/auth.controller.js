@@ -4,20 +4,37 @@ const services = require("../services");
 const CreateUserDto = require("../dtos/user/createUser.dto");
 const { StatusCodes } = require("http-status-codes");
 const { ServiceResponse } = require("../common/serviceResponse");
-
 class AuthController {
   createUser = async (req, res, next) => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
 
     try {
-      req.body.password = hash;
-      const userData = new CreateUserDto(req.body);
+      const state = await services.mernis.mernisCheck(
+        req.body.idNumber,
+        req.body.firstName,
+        req.body.lastName,
+        req.body.birthYear
+      );
+      console.log(state);
+      if (state) {
+        req.body.password = hash;
+        const userData = new CreateUserDto(req.body);
 
-      const user = await services.user.create(userData);
-      return res
-        .status(StatusCodes.CREATED)
-        .json(ServiceResponse.successWithData(user, StatusCodes.CREATED));
+        const user = await services.user.create(userData);
+        return res
+          .status(StatusCodes.CREATED)
+          .json(ServiceResponse.successWithData(user, StatusCodes.CREATED));
+      } else
+        return res
+          .status(StatusCodes.OK)
+          .json(
+            ServiceResponse.fail(
+              StatusCodes.NOT_FOUND,
+              "/auth/register",
+              "Kullanıcı bilgileri yanlış."
+            )
+          );
     } catch (error) {
       next(error);
     }

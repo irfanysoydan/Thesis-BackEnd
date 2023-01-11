@@ -37,10 +37,29 @@ class PartyController {
   getPartiesByElectionId = async (req, res, next) => {
     try {
       const electionId = req.params.electionid;
-      const parties = await services.election.getPartiesByElectionId(electionId);
+      const parties = await services.election.getPartiesByElectionId(
+        electionId
+      );
       return res
         .status(StatusCodes.OK)
         .json(ServiceResponse.successWithData(parties, StatusCodes.OK));
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getPartiesWithName = async (req, res, next) => {
+    try {
+      const electionId = req.params.electionid;
+      const parties = await services.election.getPartiesWithName(electionId);
+      const partiesWithName = [];
+      for (const party of parties) {
+        partiesWithName.push(await services.party.getParty(party));
+      }
+
+      return res
+        .status(StatusCodes.OK)
+        .json(ServiceResponse.successWithData(partiesWithName, StatusCodes.OK));
     } catch (error) {
       next(error);
     }

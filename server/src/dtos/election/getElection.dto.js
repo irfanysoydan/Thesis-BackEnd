@@ -4,6 +4,7 @@ class GetElectionDto {
     this.parties = data.parties;
     this.isFinished = data.isFinished;
     this.winner = data.winner;
+    this.image = data.image;
   }
 }
 

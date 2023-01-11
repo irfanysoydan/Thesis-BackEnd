@@ -16,7 +16,11 @@ module.exports = {
   },
 
   getPartiesByElectionId: async (electionId) => {
-    console.log(electionId);
+    const election = await Election.findById(electionId);
+    return election.parties;
+  },
+
+  getPartiesWithName: async (electionId) => {
     const election = await Election.findById(electionId);
     return election.parties;
   },
